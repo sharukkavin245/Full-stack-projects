@@ -1,11 +1,15 @@
 import React from 'react'
 import { useState } from 'react'
+import { createEmployee } from '../services/EmployeeService'
+import { useNavigate } from 'react-router-dom'
 
 const EmployeeComponent = () => {
 
     const [firstName, setFirstName] = useState('')
     const [lastName, setLastName] = useState('')
     const [email, setEmail] = useState('')
+
+    const navigator = useNavigate();
 
     function handleFirstName(e){
         setFirstName(e.target.value);
@@ -24,12 +28,18 @@ const EmployeeComponent = () => {
 
         const employee = {firstName, lastName, email};
         console.log(employee);
+
+        createEmployee(employee).then((response) => {
+            console.log(response.data);
+            navigator('/employees')
+        })
     }
 
   return (
     <div className='containter'>
+        <br /><br />
         <div className="row">
-            <div className="card">
+            <div className="card col-md-6 offset-md-3 offset-md-3">
                 <h2 className="text-center">Add Employee</h2>
                 <form action="">
                     <div className="form-group mb-2">
@@ -55,7 +65,7 @@ const EmployeeComponent = () => {
                     </div>
 
                     <div className="form-group mb-2">
-                        <div className="form-label">Email Name:</div>
+                        <div className="form-label">Email:</div>
                         <input 
                             type="text" 
                             placeholder='Enter employee email' 

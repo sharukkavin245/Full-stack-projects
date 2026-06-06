@@ -9,6 +9,12 @@ const EmployeeComponent = () => {
     const [lastName, setLastName] = useState('')
     const [email, setEmail] = useState('')
 
+    const [errors, setErrors] = useState({
+        firstName: '',
+        lastName: '',
+        email: ''
+    })
+
     const navigator = useNavigate();
 
     function handleFirstName(e){
@@ -33,6 +39,36 @@ const EmployeeComponent = () => {
             console.log(response.data);
             navigator('/employees')
         })
+    }
+
+    function validateForm(){
+        let valid = true;
+
+        const errorsCopy = {... errors};
+
+        if(firstName.trim()){
+           errorsCopy.firstName = '';
+        } else {
+            errorsCopy.firstName = 'First name is required';
+            valid = false;
+        }
+
+        if(lastName.trim()){
+            errorsCopy.lastName = '';
+        } else {
+            errorsCopy.lastName = 'Last name is required';
+            valid = false;
+        }
+
+        if(email.trim()){
+            errorsCopy.email = '';
+        } else {
+            errorsCopy.email = 'Email is required';
+        }
+
+        setErrors(errorsCopy);
+
+        return valid;
     }
 
   return (
